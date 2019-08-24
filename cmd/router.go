@@ -27,14 +27,14 @@ func Router(commandStr string) error {
 			return constant.ErrInputInvalid
 		}
 
-		Coin, err = Svc.Insert(int64(in))
+		InsertedCoins, err = Svc.Insert(int64(in))
 		if err != nil {
 			return err
 		}
 
 		// sent message
 		fmt.Println("your coin insert successfully")
-		fmt.Println(utils.Display(Coin, Item))
+		fmt.Println(utils.Display(InsertedCoins, Item))
 	case "help":
 		utils.HelpMsg()
 	case "exit":

@@ -20,7 +20,7 @@ func WelcomeMsg() string {
 	display untuk menampilkan status dari vending machine
 	parameter : coin, item barang
 */
-func Display(coin model.Coin, item []model.Item) string {
+func Display(coins []model.Coin, item []model.Item) string {
 	msg := ` ----------------------------------
  [Input amount]    %d JPY
  [Change]          100 JPY      No change
@@ -33,8 +33,13 @@ func Display(coin model.Coin, item []model.Item) string {
  for list command please reply 'help'
  ----------------------------------`
 
+	var totalCoin int64
+	for _, value := range coins {
+		totalCoin += value.Value
+	}
+
 	itemStr := buildItemList(item)
-	msg = fmt.Sprintf(msg, coin.Value, itemStr)
+	msg = fmt.Sprintf(msg, totalCoin, itemStr)
 	return msg
 }
 

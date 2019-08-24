@@ -6,25 +6,25 @@ import (
 )
 
 type VendingMachineService interface {
-	Insert(newCoin int64) (coin model.Coin, err error)
+	Insert(newCoin int64) (coin []model.Coin, err error)
 }
 
 type vendingMachineService struct {
-	coin model.Coin
+	coin []model.Coin
 	item []model.Item
 }
 
-func NewInsertService(coin model.Coin, item []model.Item) VendingMachineService {
+func NewInsertService(coin []model.Coin, item []model.Item) VendingMachineService {
 	return &vendingMachineService{coin, item}
 }
 
-func (svc *vendingMachineService) Insert(newCoin int64) (coin model.Coin, err error) {
+func (svc *vendingMachineService) Insert(newCoin int64) (coin []model.Coin, err error) {
 	// cek validate input
 	if utils.Validate(newCoin) != true {
 		// input coin is not valid
 		return svc.coin, err
 	}
 
-	svc.coin.Value = svc.coin.Value + newCoin
+	svc.coin = append(svc.coin, model.Coin{Value:newCoin})
 	return svc.coin, err
 }
