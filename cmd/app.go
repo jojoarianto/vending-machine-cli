@@ -5,21 +5,40 @@ import (
 	"fmt"
 	"github.com/jojoarianto/vending-machine-cli/model"
 	"github.com/jojoarianto/vending-machine-cli/service"
+	"github.com/jojoarianto/vending-machine-cli/utils"
 	"os"
 )
 
 var (
 	Coin model.Coin
-	Item model.Item
+	Item []model.Item
 	Svc  service.VendingMachineService
 )
 
 func init() {
+	// build list item for sale
+	Item = []model.Item{
+		model.Item{
+			Name: "Canned coffee",
+			CoinValue: 120,
+			Qty: 5,
+		},
+		model.Item{
+			Name: "Water PET bottle",
+			CoinValue: 100,
+			Qty: 0,
+		},
+		model.Item{
+			Name: "Sport drinks",
+			CoinValue: 150,
+			Qty: 2,
+		},
+	}
+
 	Svc = service.NewInsertService(Coin, Item)
 
-	welcomeMessage()
-	display()
-	inputCommand()
+	fmt.Println(utils.WelcomeMsg())
+	fmt.Println(utils.Display(Coin, Item))
 }
 
 func ReadInput() {
@@ -42,42 +61,4 @@ func ReadInput() {
 			fmt.Fprintln(os.Stderr, err)
 		}
 	}
-}
-
-func welcomeMessage() {
-	msg := `
-========================================
- Welcome to Vending Maching Application
-========================================`
-
-	fmt.Println(msg)
-}
-
-func display() {
-	msg := ` ----------------------------------
- [Input amount]    %d JPY
- [Change]          100 JPY      No change
-                   10 JPY       Change 
- [Return gate]     Empty
- [Items for sale]  1. Canned coffee    120 JPY
-                   2. Water PET bottle 100 JPY   Sold out
-                   3. Sport drinks     150 JPY
- [Outlet]          Empty
- ----------------------------------`
-	msg = fmt.Sprintf(msg, Coin.Value)
-	fmt.Println(msg)
-}
-
-func inputCommand()  {
-	msg := ` please input your command : 
-     [command number + space + arguments]
-
- available command :
-  1. insert coin
-  2. choose item to purchase
-  3. get items
-  4. return coins
-  5. get returned coins
- ----------------------------------`
-	fmt.Println(msg)
 }

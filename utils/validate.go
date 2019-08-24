@@ -1,4 +1,4 @@
-package service
+package utils
 
 func Validate(coin int64) bool {
 	if coin % 10 == 0 {

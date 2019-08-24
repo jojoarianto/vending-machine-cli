@@ -2,7 +2,10 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/jojoarianto/vending-machine-cli/constant"
+	"github.com/jojoarianto/vending-machine-cli/utils"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -12,15 +15,28 @@ func Router(commandStr string) error {
 	arrCommandStr := strings.Fields(commandStr)
 
 	switch arrCommandStr[0] {
-	case "1": // insert
+	case "1": // command for insert
 
 		// validasi args must exist
-		if len(arrCommandStr) > 1 {
-
+		if len(arrCommandStr) <= 1 {
+			// return error args not exist
 		}
 
-		fmt.Println("insert coin ", arrCommandStr[1] )
-		display()
+		in, err := strconv.Atoi(arrCommandStr[1])
+		if err != nil {
+			return constant.ErrInputInvalid
+		}
+
+		Coin, err = Svc.Insert(int64(in))
+		if err != nil {
+			return err
+		}
+
+		// sent message
+		fmt.Println("your coin insert successfully")
+		fmt.Println(utils.Display(Coin, Item))
+	case "help":
+		utils.HelpMsg()
 	case "exit":
 		os.Exit(0)
 	}
