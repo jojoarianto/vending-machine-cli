@@ -36,6 +36,27 @@ func init() {
 		},
 	}
 
+	// init coin vending machine
+	VendingCoins = []model.Coin{
+		model.Coin{Value:10},
+		model.Coin{Value:10},
+		model.Coin{Value:10},
+		model.Coin{Value:10},
+		model.Coin{Value:10},
+
+		model.Coin{Value:10},
+		model.Coin{Value:10},
+		model.Coin{Value:10},
+		model.Coin{Value:10},
+		model.Coin{Value:10},
+
+		model.Coin{Value:10},
+		model.Coin{Value:10},
+		model.Coin{Value:10},
+		model.Coin{Value:10},
+		model.Coin{Value:10},
+	}
+
 	Svc = service.NewInsertService(InsertedCoins, VendingItem, VendingCoins)
 
 	fmt.Println(utils.WelcomeMsg())

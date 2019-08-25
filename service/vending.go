@@ -49,25 +49,28 @@ func (svc *vendingMachineService) Purchase(idxItem int64)(insertedCoins []model.
 	// find item
 	for key, item := range svc.items {
 
-		if int64(key) != idxItem {
+		if int64(key) == idxItem { // jika ini ada lah barang yang di cari
+
+			if userCoin < item.CoinValue { // check your coin is enough or not
+				err = constant.ErrCoinNotEnough
+				return svc.insertedCoins, svc.items, svc.vendingCoins, err
+			}
+
+			if item.Qty <= 0 {
+				err = constant.ErrItemsStockNotAvailable
+				return svc.insertedCoins, svc.items, svc.vendingCoins, err
+			}
+
+			item.Qty -= 1                        // if valid then decreate item qty
+			userCoin = userCoin - item.CoinValue // decrease coin user
+			newItems = append(newItems, item)    // copy to new variable
+
+		} else { // jiks bukan barang yang di cari
+
 			newItems = append(newItems, item) // copy to new variable
 			continue
 		}
 
-		// if item found
-		if userCoin < item.CoinValue { // check your coin is enough or not
-			err = constant.ErrCoinNotEnough
-			return
-		}
-
-		if item.Qty <= 0 {
-			err = constant.ErrItemsStockNotAvailable
-			return
-		}
-
-		item.Qty -= 1                        // if valid then decreate item qty
-		userCoin = userCoin - item.CoinValue // decrease coin user
-		newItems = append(newItems, item)    // copy to new variable
 	}
 
 	// calculate for change
