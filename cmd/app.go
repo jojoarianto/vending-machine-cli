@@ -9,7 +9,7 @@ import (
 	"os"
 )
 
-var (
+var ( // global state
 	InsertedCoins []model.Coin
 	VendingCoins  []model.Coin
 	VendingItem   []model.Item
