@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/jojoarianto/vending-machine-cli/constant"
+	"github.com/jojoarianto/vending-machine-cli/service"
 	"github.com/jojoarianto/vending-machine-cli/utils"
 	"os"
 	"strconv"
@@ -15,11 +16,11 @@ func Router(commandStr string) error {
 	arrCommandStr := strings.Fields(commandStr)
 
 	switch arrCommandStr[0] {
+
 	case "1": // command for insert
 
-		// validasi args must exist
-		if len(arrCommandStr) <= 1 {
-			// return error args not exist
+		if len(arrCommandStr) <= 1 { // validasi args must exist
+			return constant.ErrInputRequired
 		}
 
 		in, err := strconv.Atoi(arrCommandStr[1])
@@ -27,6 +28,7 @@ func Router(commandStr string) error {
 			return constant.ErrInputInvalid
 		}
 
+		Svc = service.NewInsertService(InsertedCoins, VendingItem, VendingCoins)
 		InsertedCoins, err = Svc.Insert(int64(in))
 		if err != nil {
 			return err
@@ -34,11 +36,38 @@ func Router(commandStr string) error {
 
 		// sent message
 		fmt.Println("your coin insert successfully")
-		fmt.Println(utils.Display(InsertedCoins, Item))
+		fmt.Println(utils.Display(InsertedCoins, VendingItem))
+
+	case "2": // command for purchase
+
+		if len(arrCommandStr) <= 1 { // validasi args must exist
+			return constant.ErrInputRequired
+		}
+
+		in, err := strconv.Atoi(arrCommandStr[1])
+		if err != nil {
+			return constant.ErrInputInvalid
+		}
+
+		Svc = service.NewInsertService(InsertedCoins, VendingItem, VendingCoins)
+		InsertedCoins, VendingItem, VendingCoins, err = Svc.Purchase(int64(in-1))
+		if err != nil {
+			return err
+		}
+
+		// sent message
+		fmt.Println("your purchase is successfully")
+		fmt.Println(utils.Display(InsertedCoins, VendingItem))
+
 	case "help":
-		utils.HelpMsg()
+
+		msg := utils.HelpMsg()
+		fmt.Println(msg)
+
 	case "exit":
+
 		os.Exit(0)
+
 	}
 
 	return nil

@@ -10,15 +10,15 @@ import (
 )
 
 var (
-	InsertedCoins    []model.Coin
-	VendingTotalCoin []model.Coin
-	Item             []model.Item
-	Svc              service.VendingMachineService
+	InsertedCoins []model.Coin
+	VendingCoins  []model.Coin
+	VendingItem   []model.Item
+	Svc           service.VendingMachineService
 )
 
 func init() {
 	// build list item for sale
-	Item = []model.Item{
+	VendingItem = []model.Item{
 		model.Item{
 			Name:      "Canned coffee",
 			CoinValue: 120,
@@ -32,14 +32,14 @@ func init() {
 		model.Item{
 			Name:      "Sport drinks",
 			CoinValue: 150,
-			Qty:       2,
+			Qty:       1,
 		},
 	}
 
-	Svc = service.NewInsertService(InsertedCoins, Item)
+	Svc = service.NewInsertService(InsertedCoins, VendingItem, VendingCoins)
 
 	fmt.Println(utils.WelcomeMsg())
-	fmt.Println(utils.Display(InsertedCoins, Item))
+	fmt.Println(utils.Display(InsertedCoins, VendingItem))
 }
 
 func ReadInput() {

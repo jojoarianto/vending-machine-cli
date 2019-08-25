@@ -8,7 +8,7 @@ import (
 
 func TestDisplay(t *testing.T) {
 	type args struct {
-		coin model.Coin
+		coin []model.Coin
 		item []model.Item
 	}
 	tests := []struct {
@@ -19,7 +19,9 @@ func TestDisplay(t *testing.T) {
 		{
 			name: "success",
 			args: args{
-				coin: model.Coin{Value: 10},
+				coin: []model.Coin{
+					model.Coin{Value: 10},
+				},
 				item: []model.Item{
 					model.Item{
 						Name:      "Canned coffee",
@@ -83,6 +85,7 @@ func Test_buildItemList(t *testing.T) {
 	}
 
 	type args struct {
+		coin []model.Coin
 		item []model.Item
 	}
 	tests := []struct {
@@ -91,17 +94,29 @@ func Test_buildItemList(t *testing.T) {
 		want string
 	}{
 		{
-			name: "success",
-			args: args{item},
+			name: "success 1",
+			args: args{[]model.Coin{
+				model.Coin{Value: 10},
+			}, item},
 			want: `                   1. Canned coffee (120 JPY) 
                    2. Water PET bottle (100 JPY) Sold out
                    3. Sport drinks (150 JPY) 
 `,
 		},
+		{
+			name: "success 2",
+			args: args{[]model.Coin{
+				model.Coin{Value: 500},
+			}, item},
+			want: `                   1. Canned coffee (120 JPY) Available for purchase
+                   2. Water PET bottle (100 JPY) Sold out
+                   3. Sport drinks (150 JPY) Available for purchase
+`,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := buildItemList(tt.args.item); got != tt.want {
+			if got := buildItemList(tt.args.coin, tt.args.item); got != tt.want {
 				t.Errorf("buildItemList() = %v, want %v", got, tt.want)
 			}
 		})

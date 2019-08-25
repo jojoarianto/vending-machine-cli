@@ -38,12 +38,13 @@ func Display(coins []model.Coin, item []model.Item) string {
 		totalCoin += value.Value
 	}
 
-	itemStr := buildItemList(item)
+	itemStr := buildItemList(coins, item)
 	msg = fmt.Sprintf(msg, totalCoin, itemStr)
 	return msg
 }
 
-func buildItemList(item []model.Item) string {
+func buildItemList(coins []model.Coin, item []model.Item) string {
+	userCoin := SumCoin(coins)
 	msg := ""
 
 	// build item
@@ -51,6 +52,10 @@ func buildItemList(item []model.Item) string {
 		msg = msg + fmt.Sprintf(`                   %d. %s (%d JPY) `, (key+1), value.Name, value.CoinValue)
 		if value.Qty == 0 {
 			msg = msg + "Sold out"
+		}
+
+		if userCoin >= value.CoinValue && value.Qty > 0 {
+			msg = msg + "Available for purchase"
 		}
 		msg = msg + "\n"
 	}
