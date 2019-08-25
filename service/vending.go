@@ -38,7 +38,7 @@ func (svc *vendingMachineService) Insert(newCoin int64) ([]model.Coin, error) {
 /*
 	Purchase method untuk melakukan pembelian barang
 */
-func (svc *vendingMachineService) Purchase(idxItem int64) (insertedCoins []model.Coin, items []model.Item, vendingCoins []model.Coin, err error) {
+func (svc *vendingMachineService) Purchase(idxItem int64)(insertedCoins []model.Coin, items []model.Item, vendingCoins []model.Coin, err error) {
 	var (
 		newItems []model.Item
 		userCoin int64

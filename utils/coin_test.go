@@ -7,6 +7,51 @@ import (
 	"github.com/jojoarianto/vending-machine-cli/model"
 )
 
+
+func TestValidate(t *testing.T) {
+	type args struct {
+		coin int64
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{
+			name: "1. Coin valid",
+			args: args{coin: 10},
+			want: true,
+		},
+		{
+			name: "2. Coin invalid",
+			args: args{coin: 40},
+			want: false,
+		},
+		{
+			name: "3. Coin valid",
+			args: args{coin: 100},
+			want: true,
+		},
+		{
+			name: "4. Coin valid",
+			args: args{coin: 500},
+			want: true,
+		},
+		{
+			name: "5. Coin invalid",
+			args: args{coin: 520},
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := Validate(tt.args.coin); got != tt.want {
+				t.Errorf("Validate() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func TestSumCoin(t *testing.T) {
 	type args struct {
 		coins []model.Coin

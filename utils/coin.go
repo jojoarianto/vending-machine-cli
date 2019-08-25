@@ -2,7 +2,29 @@ package utils
 
 import "github.com/jojoarianto/vending-machine-cli/model"
 
-// SumCoin total coin counter
+// validCoin
+var validCoin = []model.Coin{
+	model.Coin{Value: 10},
+	model.Coin{Value: 50},
+	model.Coin{Value: 100},
+	model.Coin{Value: 500},
+}
+
+/*
+	coin yang diinput harus diantara valid coin yang telah di tentukan
+*/
+func Validate(coin int64) bool {
+	for _, value := range validCoin {
+		if value.Value == coin {
+			return true
+		}
+	}
+	return false
+}
+
+/*
+	SumCoin total coin counter
+*/
 func SumCoin(coins []model.Coin) (totalCoin int64) {
 	for _, value := range coins {
 		totalCoin += value.Value
@@ -34,4 +56,3 @@ func GiveCoinChanges(totalCoin int64) (coins []model.Coin, left int64) {
 	left = totalCoin
 	return
 }
-
