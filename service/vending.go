@@ -94,7 +94,7 @@ func (svc *vendingMachineService) GetItem() error {
 
 /*
 	ReturnCoin method untuk mengembalikan coin
-	berupa coin 10 dan 100
+	berupa coin 10 dan 100 ke return coin array
 */
 func (svc *vendingMachineService) ReturnCoin() error {
 	userCoin := utils.SumCoin(svc.storage.InsertedCoins)
@@ -105,7 +105,7 @@ func (svc *vendingMachineService) ReturnCoin() error {
 }
 
 /*
-	GetCoin
+	GetCoin get return coin array to nil
 */
 func (svc *vendingMachineService) GetCoin() error {
 	svc.storage.ReturnCoins = nil

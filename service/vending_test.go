@@ -1,11 +1,11 @@
 package service
 
 import (
-	"github.com/jojoarianto/vending-machine-cli/utils"
-	"github.com/stretchr/testify/assert"
 	"testing"
 
 	"github.com/jojoarianto/vending-machine-cli/model"
+	"github.com/jojoarianto/vending-machine-cli/utils"
+	"github.com/stretchr/testify/assert"
 )
 
 var (
@@ -15,6 +15,12 @@ var (
 
 func setupTesting() {
 	DataStorage = model.Storage{
+		InsertedCoins: []model.Coin{
+			model.Coin{Value: 10},
+			model.Coin{Value: 10},
+			model.Coin{Value: 10},
+			model.Coin{Value: 10},
+		},
 		VendingItems: []model.Item{
 			model.Item{
 				Name:      "Canned coffee",
@@ -51,6 +57,13 @@ func setupTesting() {
 			model.Coin{Value: 10},
 			model.Coin{Value: 10},
 		},
+		VendingOutlet: []model.Item{
+			model.Item{
+				Name:      "Canned coffee",
+				CoinValue: 120,
+				Qty:       5,
+			},
+		},
 	}
 
 	// init vending machine service
@@ -63,11 +76,14 @@ func TestNewInsertService(t *testing.T) {
 
 func Test_vendingMachineService_Insert(t *testing.T) {
 	var (
-		err              error
-		ncoin            int64
+		err   error
+		ncoin int64
 	)
 
 	setupTesting()
+
+	// reset to nil
+	DataStorage.InsertedCoins = nil
 
 	// insert 10 coin then
 	err = Svc.Insert(10)
@@ -86,4 +102,46 @@ func Test_vendingMachineService_Insert(t *testing.T) {
 	ncoin = utils.SumCoin(DataStorage.InsertedCoins)
 
 	assert.Nil(t, err)
+}
+
+func Test_vendingMachineService_GetItem(t *testing.T) {
+	var (
+		err error
+	)
+
+	setupTesting()
+
+	// insert 10 coin then
+	err = Svc.GetItem()
+
+	assert.Nil(t, err)
+	assert.Nil(t, DataStorage.VendingOutlet)
+}
+
+func Test_vendingMachineService_ReturnCoin(t *testing.T) {
+	var (
+		err error
+	)
+
+	setupTesting()
+
+	// insert 10 coin then
+	err = Svc.ReturnCoin()
+
+	assert.Nil(t, err)
+	assert.Nil(t, DataStorage.InsertedCoins)
+}
+
+func Test_vendingMachineService_GetCoin(t *testing.T) {
+	var (
+		err error
+	)
+
+	setupTesting()
+
+	// insert 10 coin then
+	err = Svc.GetCoin()
+
+	assert.Nil(t, err)
+	assert.Nil(t, DataStorage.ReturnCoins)
 }
