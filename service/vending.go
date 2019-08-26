@@ -32,6 +32,19 @@ func (svc *vendingMachineService) Insert(newCoin int64) error {
 		return constant.ErrCoinInvalid // input coin is not valid
 	}
 
+	isExist10Change, isExist100Change := utils.CheckChangeExist(svc.storage.VendingCoins)
+	if isExist10Change == false {
+		if newCoin == 50|| newCoin == 100 || newCoin == 500 {
+			return constant.ErrNoReturnAvailable
+		}
+	}
+
+	if isExist100Change == false {
+		if newCoin == 500 {
+			return constant.ErrNoReturnAvailable
+		}
+	}
+
 	svc.storage.InsertedCoins = append(svc.storage.InsertedCoins, model.Coin{Value: newCoin})
 	return nil
 }
@@ -124,15 +137,20 @@ func (svc *vendingMachineService) GetCoin() error {
 
 	newCoin := []model.Coin{}
 	for _, value := range svc.storage.VendingCoins {
-		if nCoin10 > 0 {
-			nCoin10--
-			continue
+		if value.Value == 10 {
+			if nCoin10 > 0 {
+				nCoin10--
+				continue
+			}
 		}
 
-		if nCoin100 > 0 {
-			nCoin100--
-			continue
+		if value.Value == 100 {
+			if nCoin100 > 0 {
+				nCoin100--
+				continue
+			}
 		}
+
 		newCoin = append(newCoin, value)
 	}
 

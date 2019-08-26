@@ -8,4 +8,5 @@ var (
 	ErrCoinInvalid            = errors.New("Your coin is not valid")
 	ErrCoinNotEnough          = errors.New("Your coin is not enough")
 	ErrItemsStockNotAvailable = errors.New("Item stock is not available")
+	ErrNoReturnAvailable      = errors.New("Sorry, no change available for this coin")
 )

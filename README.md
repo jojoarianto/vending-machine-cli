@@ -1,6 +1,5 @@
 # vending-machine-cli
 [![Build Status](https://travis-ci.org/jojoarianto/vending-machine-cli.svg?branch=master)](https://travis-ci.org/jojoarianto/vending-machine-cli)
-[![Coverage Status](https://coveralls.io/repos/github/jojoarianto/vending-machine-cli/badge.svg?branch=master)](https://coveralls.io/github/jojoarianto/vending-machine-cli?branch=master)
 
 console program that imitate the vending machine
 
