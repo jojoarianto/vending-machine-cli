@@ -41,9 +41,8 @@ run app
         vending_test.go
     utils/
         coin.go
-        coin_test.go
+        utils_test.go
         msgbuilder.go
-        msgbuilder_test.go
     main.go
     go.mod
     Makefile
