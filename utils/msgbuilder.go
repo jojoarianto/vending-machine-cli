@@ -11,7 +11,7 @@ import (
 func WelcomeMsg() string {
 	msg := `
  ----------------------------------
- Welcome to Vending Maching Application`
+ Welcome to Vending Machine Application`
 
 	return msg
 }
@@ -28,7 +28,7 @@ func Display(storage model.Storage) string {
  [Return gate]     Empty
  [Items for sale]  
 %s
- [Outlet]          
+ [Outlet]
 %s
 
  for list command please reply 'help'

@@ -51,7 +51,8 @@ func TestDisplay(t *testing.T) {
                    2. Water PET bottle (100 JPY) Sold out
                    3. Sport drinks (150 JPY) 
 
- [Outlet]          Empty
+ [Outlet]
+                   Empty
 
  for list command please reply 'help'
  ----------------------------------`,
