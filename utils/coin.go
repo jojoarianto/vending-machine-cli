@@ -56,3 +56,40 @@ func GiveCoinChanges(totalCoin int64) (coins []model.Coin, left int64) {
 	left = totalCoin
 	return
 }
+
+/*
+	CheckChangeExist method untuk melakukan check apakah koin kembalian
+*/
+func CheckChangeExist(coins []model.Coin) (isExist10Change bool, isExist100Change bool) {
+	const (
+		min10  = 9
+		min100  = 4
+	)
+
+	var (
+		counter10 = 0
+		counter100 = 0
+	)
+
+	for _, value := range coins {
+		if value.Value == 100 {
+			counter100++
+			continue
+		}
+
+		if value.Value == 10 {
+			counter10++
+			continue
+		}
+	}
+
+	if counter100 >= min100 {
+		isExist100Change = true
+	}
+
+	if counter10 >= min10 {
+		isExist10Change = true
+	}
+
+	return
+}

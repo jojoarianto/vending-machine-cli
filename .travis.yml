@@ -12,3 +12,7 @@ notifications:
 script:
   - go test ./... -race -coverprofile=coverage.txt -covermode=atomic
   - $GOPATH/bin/goveralls -service=travis-ci
+  - ls
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

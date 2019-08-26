@@ -54,6 +54,12 @@ func init() {
 			model.Coin{Value: 10},
 			model.Coin{Value: 10},
 			model.Coin{Value: 10},
+
+			model.Coin{Value: 100},
+			model.Coin{Value: 100},
+			model.Coin{Value: 100},
+			model.Coin{Value: 100},
+			model.Coin{Value: 100},
 		},
 	}
 

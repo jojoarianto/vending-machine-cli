@@ -164,3 +164,55 @@ func Test_buildOutletList(t *testing.T) {
 		})
 	}
 }
+
+func TestWelcomeMsg(t *testing.T) {
+	tests := []struct {
+		name string
+		want string
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := WelcomeMsg(); got != tt.want {
+				t.Errorf("WelcomeMsg() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_buildReturnList(t *testing.T) {
+	type args struct {
+		coin []model.Coin
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := buildReturnList(tt.args.coin); got != tt.want {
+				t.Errorf("buildReturnList() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestHelpMsg(t *testing.T) {
+	tests := []struct {
+		name string
+		want string
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := HelpMsg(); got != tt.want {
+				t.Errorf("HelpMsg() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
