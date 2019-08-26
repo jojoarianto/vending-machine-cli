@@ -28,7 +28,14 @@ func Router(commandStr string) error {
 			return constant.ErrInputInvalid
 		}
 
-		Svc = service.NewInsertService(InsertedCoins, VendingItem, VendingCoins)
+		// renew service
+		Svc = service.NewVendingService(
+			InsertedCoins,
+			VendingItem,
+			VendingCoins,
+			VendingOutlet,
+			)
+
 		InsertedCoins, err = Svc.Insert(int64(in))
 		if err != nil {
 			return err
@@ -49,8 +56,15 @@ func Router(commandStr string) error {
 			return constant.ErrInputInvalid
 		}
 
-		Svc = service.NewInsertService(InsertedCoins, VendingItem, VendingCoins)
-		InsertedCoins, VendingItem, VendingCoins, err = Svc.Purchase(int64(in-1))
+		// renew service
+		Svc = service.NewVendingService(
+			InsertedCoins,
+			VendingItem,
+			VendingCoins,
+			VendingOutlet,
+			)
+
+		InsertedCoins, VendingItem, VendingCoins, VendingOutlet, err = Svc.Purchase(int64(in-1))
 		if err != nil {
 			return err
 		}
@@ -58,6 +72,7 @@ func Router(commandStr string) error {
 		// sent message
 		fmt.Println("your purchase is successfully")
 		fmt.Println(utils.Display(InsertedCoins, VendingItem))
+		fmt.Println(VendingOutlet)
 
 	case "help":
 

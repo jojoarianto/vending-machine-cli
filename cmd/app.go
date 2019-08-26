@@ -13,11 +13,15 @@ var ( // global state
 	InsertedCoins []model.Coin
 	VendingCoins  []model.Coin
 	VendingItem   []model.Item
+	VendingOutlet []model.Item
 	Svc           service.VendingMachineService
 )
 
+/*
+	init method to construct this app
+*/
 func init() {
-	// build list item for sale
+	// init items for sale
 	VendingItem = []model.Item{
 		model.Item{
 			Name:      "Canned coffee",
@@ -57,12 +61,24 @@ func init() {
 		model.Coin{Value:10},
 	}
 
-	Svc = service.NewInsertService(InsertedCoins, VendingItem, VendingCoins)
+	// init vending machine service
+	Svc = service.NewVendingService(
+		InsertedCoins,
+		VendingItem,
+		VendingCoins,
+		VendingOutlet,
+		)
 
-	fmt.Println(utils.WelcomeMsg())
-	fmt.Println(utils.Display(InsertedCoins, VendingItem))
+	welcomeMsg := utils.WelcomeMsg()
+	displayMsg := utils.Display(InsertedCoins, VendingItem)
+
+	fmt.Println(welcomeMsg)
+	fmt.Println(displayMsg)
 }
 
+/*
+	ReadInput method to read interactive terminal input from user
+*/
 func ReadInput() {
 	// read input from typing
 	reader := bufio.NewReader(os.Stdin)
