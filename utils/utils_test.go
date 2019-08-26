@@ -261,7 +261,7 @@ func TestDisplay(t *testing.T) {
 			want: ` ----------------------------------
  [Input amount]    10 JPY
  [Change]          100 JPY      No change
-                   10 JPY       Change 
+                   10 JPY       No change 
  [Return gate]
                    Empty
  [Items for sale]  

@@ -56,7 +56,7 @@ func Display(storage model.Storage) string {
 		change100Str = "Change"
 	}
 
-	msg = fmt.Sprintf(msg, change100Str, change10Str, totalCoin, returnStr, itemStr, outletStr)
+	msg = fmt.Sprintf(msg, totalCoin, change100Str, change10Str, returnStr, itemStr, outletStr)
 	return msg
 }
 

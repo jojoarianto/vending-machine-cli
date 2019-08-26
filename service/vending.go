@@ -108,6 +108,35 @@ func (svc *vendingMachineService) ReturnCoin() error {
 	GetCoin get return coin array to nil
 */
 func (svc *vendingMachineService) GetCoin() error {
+	nCoin10 := 0;
+	nCoin100 := 0;
+	for _, value := range svc.storage.ReturnCoins {
+		if value.Value == 10 {
+			nCoin10++
+			continue
+		}
+
+		if value.Value == 100 {
+			nCoin100++
+			continue
+		}
+	}
+
+	newCoin := []model.Coin{}
+	for _, value := range svc.storage.VendingCoins {
+		if nCoin10 > 0 {
+			nCoin10--
+			continue
+		}
+
+		if nCoin100 > 0 {
+			nCoin100--
+			continue
+		}
+		newCoin = append(newCoin, value)
+	}
+
+	svc.storage.VendingCoins = newCoin
 	svc.storage.ReturnCoins = nil
 	return nil
 }
