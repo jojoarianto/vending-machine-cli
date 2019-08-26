@@ -28,7 +28,8 @@ func Display(storage model.Storage) string {
  [Return gate]     Empty
  [Items for sale]  
 %s
- [Outlet]          Empty
+ [Outlet]          
+%s
 
  for list command please reply 'help'
  ----------------------------------`
@@ -39,7 +40,9 @@ func Display(storage model.Storage) string {
 	}
 
 	itemStr := buildItemList(storage.InsertedCoins, storage.VendingItems)
-	msg = fmt.Sprintf(msg, totalCoin, itemStr)
+	outletStr := buildOutletList(storage.VendingOutlet)
+
+	msg = fmt.Sprintf(msg, totalCoin, itemStr, outletStr)
 	return msg
 }
 
@@ -57,6 +60,25 @@ func buildItemList(coins []model.Coin, item []model.Item) string {
 		if userCoin >= value.CoinValue && value.Qty > 0 {
 			msg = msg + "Available for purchase"
 		}
+		msg = msg + "\n"
+	}
+
+	return msg
+}
+
+func buildOutletList(item []model.Item) string {
+	msg := ""
+	if len(item) == 0 || item == nil {
+		msg = msg + fmt.Sprintf(`                   Empty`)
+		return msg
+	}
+
+	for _, value := range item {
+		msg = msg + fmt.Sprintf(`                   %s`, value.Name)
+		if value.Qty == 0 {
+			msg = msg + "Sold out"
+		}
+
 		msg = msg + "\n"
 	}
 

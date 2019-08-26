@@ -123,3 +123,42 @@ func Test_buildItemList(t *testing.T) {
 		})
 	}
 }
+
+func Test_buildOutletList(t *testing.T) {
+	type args struct {
+		item []model.Item
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			name: "success",
+			args: args{
+				item: []model.Item{
+					model.Item{
+						Name:      "Sport drinks",
+						CoinValue: 150,
+						Qty:       1,
+					},
+					model.Item{
+						Name:      "Water PET bottle",
+						CoinValue: 100,
+						Qty:       1,
+					},
+				},
+			},
+			want: `                   Sport drinks
+                   Water PET bottle
+`,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := buildOutletList(tt.args.item); got != tt.want {
+				t.Errorf("buildOutletList() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
