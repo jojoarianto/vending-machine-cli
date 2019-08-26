@@ -55,7 +55,20 @@ func Router(commandStr string) error {
 		}
 
 		displayMsg := utils.Display(DataStorage)
-		msg := "your purchase is successfully"
+		msg := "Your purchase is successfully"
+
+		fmt.Println(msg)
+		fmt.Println(displayMsg)
+
+	case "3": // command for get item
+
+		err := Svc.GetItem()
+		if err != nil {
+			return err
+		}
+
+		displayMsg := utils.Display(DataStorage)
+		msg := "Get item is successfully"
 
 		fmt.Println(msg)
 		fmt.Println(displayMsg)

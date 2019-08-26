@@ -9,6 +9,7 @@ import (
 type VendingMachineService interface {
 	Insert(newCoin int64) error
 	Purchase(idxItem int64) error
+	GetItem() error
 }
 
 type vendingMachineService struct {
@@ -79,4 +80,12 @@ func (svc *vendingMachineService) Purchase(idxItem int64) (error) {
 	svc.storage.InsertedCoins, _ = utils.GiveCoinChanges(userCoin)
 	svc.storage.VendingItems = newItems
 	return err
+}
+
+/*
+	GetItem
+*/
+func (svc *vendingMachineService) GetItem() error {
+	svc.storage.VendingOutlet = nil
+	return nil
 }
