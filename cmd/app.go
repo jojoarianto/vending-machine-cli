@@ -9,68 +9,59 @@ import (
 	"os"
 )
 
-var ( // global state
-	InsertedCoins []model.Coin
-	VendingCoins  []model.Coin
-	VendingItem   []model.Item
-	VendingOutlet []model.Item
-	Svc           service.VendingMachineService
+var (
+	Svc         service.VendingMachineService
+	DataStorage model.Storage
 )
 
 /*
 	init method to construct this app
 */
 func init() {
-	// init items for sale
-	VendingItem = []model.Item{
-		model.Item{
-			Name:      "Canned coffee",
-			CoinValue: 120,
-			Qty:       5,
+	DataStorage = model.Storage{
+		VendingItems: []model.Item{
+			model.Item{
+				Name:      "Canned coffee",
+				CoinValue: 120,
+				Qty:       5,
+			},
+			model.Item{
+				Name:      "Water PET bottle",
+				CoinValue: 100,
+				Qty:       0,
+			},
+			model.Item{
+				Name:      "Sport drinks",
+				CoinValue: 150,
+				Qty:       1,
+			},
 		},
-		model.Item{
-			Name:      "Water PET bottle",
-			CoinValue: 100,
-			Qty:       0,
+		VendingCoins: []model.Coin{
+			model.Coin{Value: 10},
+			model.Coin{Value: 10},
+			model.Coin{Value: 10},
+			model.Coin{Value: 10},
+			model.Coin{Value: 10},
+
+			model.Coin{Value: 10},
+			model.Coin{Value: 10},
+			model.Coin{Value: 10},
+			model.Coin{Value: 10},
+			model.Coin{Value: 10},
+
+			model.Coin{Value: 10},
+			model.Coin{Value: 10},
+			model.Coin{Value: 10},
+			model.Coin{Value: 10},
+			model.Coin{Value: 10},
 		},
-		model.Item{
-			Name:      "Sport drinks",
-			CoinValue: 150,
-			Qty:       1,
-		},
-	}
-
-	// init coin vending machine
-	VendingCoins = []model.Coin{
-		model.Coin{Value:10},
-		model.Coin{Value:10},
-		model.Coin{Value:10},
-		model.Coin{Value:10},
-		model.Coin{Value:10},
-
-		model.Coin{Value:10},
-		model.Coin{Value:10},
-		model.Coin{Value:10},
-		model.Coin{Value:10},
-		model.Coin{Value:10},
-
-		model.Coin{Value:10},
-		model.Coin{Value:10},
-		model.Coin{Value:10},
-		model.Coin{Value:10},
-		model.Coin{Value:10},
 	}
 
 	// init vending machine service
-	Svc = service.NewVendingService(
-		InsertedCoins,
-		VendingItem,
-		VendingCoins,
-		VendingOutlet,
-		)
+	Svc = service.NewVendingService(&DataStorage)
 
 	welcomeMsg := utils.WelcomeMsg()
-	displayMsg := utils.Display(InsertedCoins, VendingItem)
+	displayMsg := utils.Display(DataStorage)
 
 	fmt.Println(welcomeMsg)
 	fmt.Println(displayMsg)

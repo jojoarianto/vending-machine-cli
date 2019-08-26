@@ -3,7 +3,6 @@ package cmd
 import (
 	"fmt"
 	"github.com/jojoarianto/vending-machine-cli/constant"
-	"github.com/jojoarianto/vending-machine-cli/service"
 	"github.com/jojoarianto/vending-machine-cli/utils"
 	"os"
 	"strconv"
@@ -12,11 +11,11 @@ import (
 
 // Router is orchestration of command input
 func Router(commandStr string) error {
+
 	commandStr = strings.TrimSuffix(commandStr, "\n")
 	arrCommandStr := strings.Fields(commandStr)
 
 	switch arrCommandStr[0] {
-
 	case "1": // command for insert
 
 		if len(arrCommandStr) <= 1 { // validasi args must exist
@@ -28,22 +27,16 @@ func Router(commandStr string) error {
 			return constant.ErrInputInvalid
 		}
 
-		// renew service
-		Svc = service.NewVendingService(
-			InsertedCoins,
-			VendingItem,
-			VendingCoins,
-			VendingOutlet,
-			)
-
-		InsertedCoins, err = Svc.Insert(int64(in))
+		err = Svc.Insert(int64(in))
 		if err != nil {
 			return err
 		}
 
-		// sent message
-		fmt.Println("your coin insert successfully")
-		fmt.Println(utils.Display(InsertedCoins, VendingItem))
+		displayMsg := utils.Display(DataStorage)
+		msg := "Your coin insert successfully"
+
+		fmt.Println(msg)
+		fmt.Println(displayMsg)
 
 	case "2": // command for purchase
 
@@ -56,23 +49,16 @@ func Router(commandStr string) error {
 			return constant.ErrInputInvalid
 		}
 
-		// renew service
-		Svc = service.NewVendingService(
-			InsertedCoins,
-			VendingItem,
-			VendingCoins,
-			VendingOutlet,
-			)
-
-		InsertedCoins, VendingItem, VendingCoins, VendingOutlet, err = Svc.Purchase(int64(in-1))
+		err = Svc.Purchase(int64(in-1))
 		if err != nil {
 			return err
 		}
 
-		// sent message
-		fmt.Println("your purchase is successfully")
-		fmt.Println(utils.Display(InsertedCoins, VendingItem))
-		fmt.Println(VendingOutlet)
+		displayMsg := utils.Display(DataStorage)
+		msg := "your purchase is successfully"
+
+		fmt.Println(msg)
+		fmt.Println(displayMsg)
 
 	case "help":
 

@@ -7,76 +7,56 @@ import (
 )
 
 type VendingMachineService interface {
-	Insert(newCoin int64) ([]model.Coin, error)
-	Purchase(idxItem int64) ([]model.Coin, []model.Item, []model.Coin, []model.Item, error)
+	Insert(newCoin int64) error
+	Purchase(idxItem int64) error
 }
 
 type vendingMachineService struct {
-	insertedCoins []model.Coin
-	items         []model.Item
-	vendingCoins  []model.Coin
-	vendingOutlet []model.Item
+	storage *model.Storage
 }
 
 // NewInsertService service contructor
-func NewVendingService(
-	insertedCoins []model.Coin,
-	items []model.Item,
-	vendingCoins []model.Coin,
-	vendingOutlet []model.Item,
-) VendingMachineService {
-
-	return &vendingMachineService{
-		insertedCoins,
-		items,
-		vendingCoins,
-		vendingOutlet,
-	}
+func NewVendingService(stg *model.Storage) VendingMachineService {
+	return &vendingMachineService{storage: stg}
 }
 
 /*
 	Insert method untuk melakukan input inserted coin
 */
-func (svc *vendingMachineService) Insert(newCoin int64) ([]model.Coin, error) {
-	// cek validate input
-	if utils.Validate(newCoin) != true {
-		// input coin is not valid
-		return svc.insertedCoins, constant.ErrCoinInvalid
+func (svc *vendingMachineService) Insert(newCoin int64) error {
+
+	if utils.Validate(newCoin) != true { // cek validate input
+		return constant.ErrCoinInvalid // input coin is not valid
 	}
 
-	svc.insertedCoins = append(svc.insertedCoins, model.Coin{Value: newCoin})
-	return svc.insertedCoins, nil
+	svc.storage.InsertedCoins = append(svc.storage.InsertedCoins, model.Coin{Value: newCoin})
+	return nil
 }
 
 /*
 	Purchase method untuk melakukan pembelian barang
 */
-func (svc *vendingMachineService) Purchase(idxItem int64) (
-	insertedCoins []model.Coin,
-	items []model.Item,
-	vendingCoins []model.Coin,
-	vendingOutlet []model.Item,
-	err error,
-) {
+func (svc *vendingMachineService) Purchase(idxItem int64) (error) {
 
 	var (
 		newItems []model.Item
 		userCoin int64
+		err error
 	)
 
-	userCoin = utils.SumCoin(svc.insertedCoins)
+	userCoin = utils.SumCoin(svc.storage.InsertedCoins)
 
-	for key, item := range svc.items { // proses untuk menjelajahi semuaitem
+	for key, item := range svc.storage.VendingItems { // proses untuk menjelajahi semuaitem
 		if int64(key) == idxItem { // jika ini ada lah barang yang dicari
 
 			if userCoin < item.CoinValue { // check your coin is enough or not
 				err = constant.ErrCoinNotEnough
-				return svc.insertedCoins, svc.items, svc.vendingCoins, svc.vendingOutlet, err
+				return err
 			}
 
 			if item.Qty <= 0 {
 				err = constant.ErrItemsStockNotAvailable
-				return svc.insertedCoins, svc.items, svc.vendingCoins, svc.vendingOutlet, err
+				return err
 			}
 
 			item.Qty -= 1                        // if valid then decreate item qty
@@ -85,7 +65,7 @@ func (svc *vendingMachineService) Purchase(idxItem int64) (
 
 			itemToCart := item
 			itemToCart.Qty = 1
-			svc.vendingOutlet = append(svc.vendingOutlet, itemToCart)
+			svc.storage.VendingOutlet = append(svc.storage.VendingOutlet, itemToCart)
 
 		} else { // jiks bukan barang yang di cari
 
@@ -96,7 +76,7 @@ func (svc *vendingMachineService) Purchase(idxItem int64) (
 	}
 
 	// calculate for change
-	newReturnCoins, _ := utils.GiveCoinChanges(userCoin)
-
-	return newReturnCoins, newItems, vendingCoins, svc.vendingOutlet, err
+	svc.storage.InsertedCoins, _ = utils.GiveCoinChanges(userCoin)
+	svc.storage.VendingItems = newItems
+	return err
 }

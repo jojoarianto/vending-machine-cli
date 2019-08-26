@@ -7,9 +7,31 @@ import (
 )
 
 func TestDisplay(t *testing.T) {
+	DataStorage := model.Storage{
+		VendingItems: []model.Item{
+			model.Item{
+				Name:      "Canned coffee",
+				CoinValue: 120,
+				Qty:       5,
+			},
+			model.Item{
+				Name:      "Water PET bottle",
+				CoinValue: 100,
+				Qty:       0,
+			},
+			model.Item{
+				Name:      "Sport drinks",
+				CoinValue: 150,
+				Qty:       2,
+			},
+		},
+		InsertedCoins: []model.Coin{
+			model.Coin{Value: 10},
+		},
+	}
+
 	type args struct {
-		coin []model.Coin
-		item []model.Item
+		data model.Storage
 	}
 	tests := []struct {
 		name string
@@ -18,28 +40,7 @@ func TestDisplay(t *testing.T) {
 	}{
 		{
 			name: "success",
-			args: args{
-				coin: []model.Coin{
-					model.Coin{Value: 10},
-				},
-				item: []model.Item{
-					model.Item{
-						Name:      "Canned coffee",
-						CoinValue: 120,
-						Qty:       5,
-					},
-					model.Item{
-						Name:      "Water PET bottle",
-						CoinValue: 100,
-						Qty:       0,
-					},
-					model.Item{
-						Name:      "Sport drinks",
-						CoinValue: 150,
-						Qty:       2,
-					},
-				},
-			},
+			args: args{data: DataStorage},
 			want: ` ----------------------------------
  [Input amount]    10 JPY
  [Change]          100 JPY      No change
@@ -58,7 +59,7 @@ func TestDisplay(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Display(tt.args.coin, tt.args.item); got != tt.want {
+			if got := Display(tt.args.data); got != tt.want {
 				t.Errorf("Display() = %v, want %v", got, tt.want)
 			}
 		})
