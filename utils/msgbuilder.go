@@ -23,8 +23,8 @@ func WelcomeMsg() string {
 func Display(storage model.Storage) string {
 	msg := ` ----------------------------------
  [Input amount]    %d JPY
- [Change]          100 JPY      No change
-                   10 JPY       Change 
+ [Change]          100 JPY      %s
+                   10 JPY       %s 
  [Return gate]
 %s
  [Items for sale]  
@@ -44,7 +44,19 @@ func Display(storage model.Storage) string {
 	outletStr := buildOutletList(storage.VendingOutlet)
 	returnStr := buildReturnList(storage.ReturnCoins)
 
-	msg = fmt.Sprintf(msg, totalCoin, returnStr, itemStr, outletStr)
+	isExist10Change, isExist100Change := CheckChangeExist(storage.VendingCoins)
+
+	change10Str := "No change"
+	if isExist10Change {
+		change10Str = "Change"
+	}
+
+	change100Str := "No change"
+	if isExist100Change {
+		change100Str = "Change"
+	}
+
+	msg = fmt.Sprintf(msg, change100Str, change10Str, totalCoin, returnStr, itemStr, outletStr)
 	return msg
 }
 
