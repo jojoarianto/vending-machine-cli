@@ -1,6 +1,10 @@
 # vending-machine-cli
 
-console program that imitate the Vending Machine
+console program that imitate the vending machine
+
+### getting started
+
+this project requires go to be installed. on OS X with homebrew you can just run  ```brew install go```
 
 ### how to play
 clone this project/repository
@@ -56,4 +60,4 @@ to run test
 make test
 ```
 
-see another make commmand on makefile
+see another make command on makefile

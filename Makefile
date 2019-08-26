@@ -1,9 +1,13 @@
 
+
 build: ## build binary file
 	go build -o main.go vending-machine
 
 run: ## run on development mode
 	go run main.go
+
+coverage: ## Generate global code coverage report
+	go test ./... -race -coverprofile=coverage.txt -covermode=atomic
 
 test: ## run go test
 	go test ./... -v
