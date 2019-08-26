@@ -11,6 +11,7 @@ type VendingMachineService interface {
 	Purchase(idxItem int64) error
 	GetItem() error
 	ReturnCoin() error
+	GetCoin() error
 }
 
 type vendingMachineService struct {
@@ -100,5 +101,13 @@ func (svc *vendingMachineService) ReturnCoin() error {
 	svc.storage.InsertedCoins, _ = utils.GiveCoinChanges(userCoin)
 	svc.storage.ReturnCoins = svc.storage.InsertedCoins
 	svc.storage.InsertedCoins = nil
+	return nil
+}
+
+/*
+	GetCoin
+*/
+func (svc *vendingMachineService) GetCoin() error {
+	svc.storage.ReturnCoins = nil
 	return nil
 }
