@@ -1,8 +1,8 @@
 
 build: ## build binary file
-	go build main.go
+	go build -o main.go vending-machine
 
-dev: ## run on development mode
+run: ## run on development mode
 	go run main.go
 
 test: ## run go test

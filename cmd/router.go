@@ -104,7 +104,7 @@ func Router(commandStr string) error {
 		msg := utils.HelpMsg()
 		fmt.Println(msg)
 
-	case "exit":
+	case "exit", "0":
 
 		os.Exit(0)
 
