@@ -73,6 +73,19 @@ func Router(commandStr string) error {
 		fmt.Println(msg)
 		fmt.Println(displayMsg)
 
+	case "4":
+
+		err := Svc.ReturnCoin()
+		if err != nil {
+			return err
+		}
+
+		displayMsg := utils.Display(DataStorage)
+		msg := "Get item is successfully"
+
+		fmt.Println(msg)
+		fmt.Println(displayMsg)
+
 	case "help":
 
 		msg := utils.HelpMsg()

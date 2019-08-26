@@ -45,7 +45,8 @@ func TestDisplay(t *testing.T) {
  [Input amount]    10 JPY
  [Change]          100 JPY      No change
                    10 JPY       Change 
- [Return gate]     Empty
+ [Return gate]
+                   Empty
  [Items for sale]  
                    1. Canned coffee (120 JPY) 
                    2. Water PET bottle (100 JPY) Sold out

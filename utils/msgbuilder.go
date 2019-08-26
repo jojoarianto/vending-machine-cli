@@ -25,7 +25,8 @@ func Display(storage model.Storage) string {
  [Input amount]    %d JPY
  [Change]          100 JPY      No change
                    10 JPY       Change 
- [Return gate]     Empty
+ [Return gate]
+%s
  [Items for sale]  
 %s
  [Outlet]
@@ -41,8 +42,9 @@ func Display(storage model.Storage) string {
 
 	itemStr := buildItemList(storage.InsertedCoins, storage.VendingItems)
 	outletStr := buildOutletList(storage.VendingOutlet)
+	returnStr := buildReturnList(storage.ReturnCoins)
 
-	msg = fmt.Sprintf(msg, totalCoin, itemStr, outletStr)
+	msg = fmt.Sprintf(msg, totalCoin, returnStr, itemStr, outletStr)
 	return msg
 }
 
@@ -60,6 +62,22 @@ func buildItemList(coins []model.Coin, item []model.Item) string {
 		if userCoin >= value.CoinValue && value.Qty > 0 {
 			msg = msg + "Available for purchase"
 		}
+		msg = msg + "\n"
+	}
+
+	return msg
+}
+
+
+func buildReturnList(coin []model.Coin) string {
+	msg := ""
+	if len(coin) == 0 || coin == nil {
+		msg = msg + fmt.Sprintf(`                   Empty`)
+		return msg
+	}
+
+	for _, value := range coin {
+		msg = msg + fmt.Sprintf(`                   %d JPY`, value.Value)
 		msg = msg + "\n"
 	}
 
